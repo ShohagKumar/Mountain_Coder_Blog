@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Blog{% endblock title %}
+
+{% block blog-active %}active{% endblock blog-active %}
+
+{% block body %}
+{% comment %} {% for blogs in blogs %} this is for all post {% endcomment %}
+{% for blogs in page_obj %}
+<div class="container my-5">
+    <div class="media">
+        <div class="media-body my-2">
+            <a href="/blogpost/{{blogs.slug}}" class="text-dark text-decoration-none">
+                <h3> {{blogs.title}}</h3>
+            </a>
+            {{blogs.content|truncatechars_html:250|safe}}
+
+        </div>
+        <a href="/blogpost/{{blogs.slug}}"><button class="btn btn-sm btn-primary text-decoration-none">Read
+                More</button></a>
+    </div>
+</div>
+
+{% endfor %}
+
+<style>
+    #next {
+        float: right;
+    }
+</style>
+
+<div class="container d-flex justify-content-between">
+    {% if page_obj.has_previous %}
+    <a href=" ?page={{page_obj.previous_page_number}}"><button class="btn btn-sm btn-success ">Previous</button></a>
+    {% endif %}
+    <span>Page: {{page_obj.number}}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{page_obj.next_page_number}}"><button class="btn btn-sm btn-success " id="next">Next</button></a>
+    {% endif %}
+
+    <!-- concept -->
+    <!-- <span>
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">Previous</a>
+        {% endif %}
+        <span>{{page_obj}}</span>
+        {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+    </span> -->
+</div>
+{% endblock body %}
